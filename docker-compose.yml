@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  dart-arangodb:
+    container_name: dart-arangodb
+    hostname: dart-arangodb
+    image: twosixlabsdart/dart-arangodb:latest
+    ports:
+      - 8529:8529
+    networks:
+      - dart-net
+
+networks:
+  dart-net:
