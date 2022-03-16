@@ -8,8 +8,8 @@ object Dependencies {
     val betterFilesVersion = "3.8.0"
     val java8CompatVersion = "1.0.0"
 
-    val cdr4sVersion = "3.0.270"
-    val dartCommonsVersion = "3.0.307"
+    val cdr4sVersion = "3.0.9"
+    val dartCommonsVersion = "3.0.30"
 
     val arangodbVersion = "6.12.3"
     val arangoJacksonVersion = "2.0.0"

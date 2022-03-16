@@ -6,8 +6,7 @@ name := "dart-arangodb-datastore"
 
 scalaVersion in ThisBuild := "2.12.7"
 
-resolvers in ThisBuild ++= Seq( "Spray IO Repository" at "https://repo.spray.io/",
-                                "Maven Central" at "https://repo1.maven.org/maven2/",
+resolvers in ThisBuild ++= Seq( "Maven Central" at "https://repo1.maven.org/maven2/",
                                 "JCenter" at "https://jcenter.bintray.com",
                                 "Local Ivy Repository" at s"file://${System.getProperty( "user.home" )}/.ivy2/local/default" )
 
@@ -34,3 +33,21 @@ parallelExecution in Test := false
 
 javacOptions in ThisBuild ++= Seq( "-source", "8", "-target", "8" )
 scalacOptions in ThisBuild += "-target:jvm-1.8"
+
+sonatypeProfileName := "com.twosixlabs"
+inThisBuild(List(
+    organization := organization.value,
+    homepage := Some(url("https://github.com/twosixlabs-dart/cdr4s")),
+    licenses := List("GNU-Affero-3.0" -> url("https://www.gnu.org/licenses/agpl-3.0.en.html")),
+    developers := List(
+        Developer(
+            "twosixlabs-dart",
+            "Two Six Technologies",
+            "",
+            url("https://github.com/twosixlabs-dart")
+            )
+        )
+    ))
+
+ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
+ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
