@@ -3,14 +3,12 @@ package com.twosixlabs.dart.arangodb.tables
 import annotations.IntegrationTest
 import com.arangodb.async.ArangoCollectionAsync
 import com.twosixlabs.dart.test.utils.DatastoreIntegrationTest
-import org.scalatest.Ignore
 import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
 
 import scala.concurrent.Await
 import scala.util.{Failure, Try}
 
 @IntegrationTest
-@Ignore
 class TenantDocsTablesTest extends DatastoreIntegrationTest {
 
     private val COLLECTION_NAME : String = "tenant_docs"

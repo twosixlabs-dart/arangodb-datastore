@@ -13,7 +13,7 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
       - name: Build DART arangodb-datastore
-        run: sbt test
+        run: sbt "testOnly -l annotations.IntegrationTest"
 
   publish-to-sonatype:
     if: ${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v') }}
