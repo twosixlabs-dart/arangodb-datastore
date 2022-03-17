@@ -7,7 +7,6 @@ import com.twosixlabs.cdr4s.core.{CdrAnnotation, CdrDocument, DictionaryAnnotati
 import com.twosixlabs.cdr4s.test.base.TestCdrData.DOC_TEMPLATE
 import com.twosixlabs.dart.arangodb.Arango
 import com.twosixlabs.dart.test.utils.DatastoreIntegrationTest
-import org.scalatest.Ignore
 
 import java.util.UUID
 import java.util.concurrent.TimeUnit.SECONDS
@@ -15,7 +14,6 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 @IntegrationTest
-@Ignore
 class CanonicalDocsTableTestSuite extends DatastoreIntegrationTest {
 
     protected val COLLECTION_NAME : String = "canonical_docs"
