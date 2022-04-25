@@ -219,4 +219,22 @@ class CanonicalDocsTableTestSuite extends DatastoreIntegrationTest {
 
         results.isEmpty shouldBe true
     }
+
+    "Canonical CDR Document Table" should "get all existing document ids" in {
+        val docs : Seq[ CdrDocument ] = Seq( DOC_TEMPLATE.copy( documentId = "1a" ), DOC_TEMPLATE.copy( documentId = "2a" ), DOC_TEMPLATE.copy( documentId = "3a" ) )
+
+        Await.result( Future.sequence( docs.map( doc => table.upsert( doc ) ) ), Duration( 2, SECONDS ) )
+
+        val results = Await.result( table.getAllDocIds(), Duration( 2, SECONDS ) )
+
+        results.size shouldBe docs.size
+        results.toSet shouldBe docs.toSet.map( (doc : CdrDocument) => doc.documentId )
+    }
+
+    "Canonical CDR Document Table" should "return an empty collection if there are no documents when retrieving doc ids" in {
+
+        val results = Await.result( table.getAllDocIds(), Duration( 2, SECONDS ) )
+
+        results.isEmpty shouldBe true
+    }
 }
