@@ -1,17 +1,18 @@
 package com.twosixlabs.dart.arangodb.tables
 
 import com.arangodb.async.ArangoCollectionAsync
-import com.twosixlabs.cdr4s.core.{CdrAnnotation, CdrDocument}
+import com.twosixlabs.cdr4s.core.{ CdrAnnotation, CdrDocument }
 import com.twosixlabs.dart.arangodb.Serialization.ARANGO_CDR_FORMAT
 import com.twosixlabs.dart.arangodb.exception.ArangodbException
-import com.twosixlabs.dart.arangodb.{Arango, ArangoCdrDocument}
+import com.twosixlabs.dart.arangodb.{ Arango, ArangoCdrDocument }
 import com.twosixlabs.dart.utils.AsyncDecorators._
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.language.postfixOps
+import scala.util.{ Failure, Success }
 
 class CanonicalDocsTable( arango : Arango ) {
 
@@ -82,7 +83,14 @@ class CanonicalDocsTable( arango : Arango ) {
     def getAllDocuments( ) : Future[ Iterator[ CdrDocument ] ] = {
         collection.db().query( "FOR document IN canonical_docs RETURN document", classOf[ ArangoCdrDocument ] ).toScala transform {
             case Success( cursor ) => Success( cursor.iterator.asScala.map( document => ARANGO_CDR_FORMAT.fromArango( document ) ) )
-            case Failure( e ) => Failure( ArangodbException( s"Unable to all documents", COLLECTION_NAME, e ) )
+            case Failure( e ) => Failure( ArangodbException( s"Unable to retrieve all documents", COLLECTION_NAME, e ) )
+        }
+    }
+
+    def getAllDocIds( ) : Future[ List[ String ] ] = {
+        collection.db().query( "FOR document IN canonical_docs RETURN document.document_id", classOf[ String ] ).toScala transform {
+            case Success( cursor ) => Success( cursor.iterator().asScala.toList )
+            case Failure( e ) => Failure( ArangodbException( s"Unable to retrieve all document ids", COLLECTION_NAME, e ) )
         }
     }
 

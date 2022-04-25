@@ -1,14 +1,14 @@
 package com.twosixlabs.dart.arangodb.tables
 
+import annotations.IntegrationTest
 import com.arangodb.async.ArangoCollectionAsync
 import com.twosixlabs.dart.arangodb.NlpOutput
 import com.twosixlabs.dart.test.utils.DatastoreIntegrationTest
-import org.scalatest.Ignore
 
 import scala.concurrent.Await
-import scala.concurrent.duration.{Duration, SECONDS}
+import scala.concurrent.duration.{ Duration, SECONDS }
 
-@Ignore
+@IntegrationTest
 class NlpOutputsTableTestSuite extends DatastoreIntegrationTest {
 
     protected val COLLECTION_NAME : String = "nlp_outputs"

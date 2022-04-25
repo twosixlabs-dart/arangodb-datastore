@@ -7,7 +7,6 @@ import com.twosixlabs.cdr4s.core.{CdrAnnotation, CdrDocument, DictionaryAnnotati
 import com.twosixlabs.cdr4s.test.base.TestCdrData.DOC_TEMPLATE
 import com.twosixlabs.dart.arangodb.Arango
 import com.twosixlabs.dart.test.utils.DatastoreIntegrationTest
-import org.scalatest.Ignore
 
 import java.util.UUID
 import java.util.concurrent.TimeUnit.SECONDS
@@ -15,7 +14,6 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 @IntegrationTest
-@Ignore
 class CanonicalDocsTableTestSuite extends DatastoreIntegrationTest {
 
     protected val COLLECTION_NAME : String = "canonical_docs"
@@ -218,6 +216,24 @@ class CanonicalDocsTableTestSuite extends DatastoreIntegrationTest {
     "Canonical CDR Document Table" should "return an empty collection if there are no documents" in {
 
         val results = Await.result( table.getAllDocuments(), Duration( 2, SECONDS ) )
+
+        results.isEmpty shouldBe true
+    }
+
+    "Canonical CDR Document Table" should "get all existing document ids" in {
+        val docs : Seq[ CdrDocument ] = Seq( DOC_TEMPLATE.copy( documentId = "1a" ), DOC_TEMPLATE.copy( documentId = "2a" ), DOC_TEMPLATE.copy( documentId = "3a" ) )
+
+        Await.result( Future.sequence( docs.map( doc => table.upsert( doc ) ) ), Duration( 2, SECONDS ) )
+
+        val results = Await.result( table.getAllDocIds(), Duration( 2, SECONDS ) )
+
+        results.size shouldBe docs.size
+        results.toSet shouldBe docs.toSet.map( (doc : CdrDocument) => doc.documentId )
+    }
+
+    "Canonical CDR Document Table" should "return an empty collection if there are no documents when retrieving doc ids" in {
+
+        val results = Await.result( table.getAllDocIds(), Duration( 2, SECONDS ) )
 
         results.isEmpty shouldBe true
     }
